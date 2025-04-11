@@ -1,52 +1,55 @@
-import { useState, useContext } from "react"
-import { useNavigate } from "react-router"
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Fixed import
 
-import { signIn } from "../../services/authService"
-import { UserContext } from "../../contexts/UserContext"
+import { signIn } from "../../services/authService"; // ✅ Service file
+import { UserContext } from "../../contexts/UserContext";
 
 const SignInForm = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-  })
-  const [message, setMessage] = useState('')
+  });
+  const [message, setMessage] = useState('');
 
-  const { setUser } = useContext(UserContext)
+  const { setUser } = useContext(UserContext);
 
   const handleChange = (e) => {
-    setMessage('')
-    setFormData({...formData, [e.target.name]: e.target.value})
-  }
+    setMessage('');
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      const signedInUser = await signIn(formData)
+      const { token } = await signIn(formData);
 
-      setUser(signedInUser)
+   
+      localStorage.setItem('token', token);
 
-      navigate('/')
+ 
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = JSON.parse(atob(base64));
+
+      setUser(jsonPayload);
+
+      navigate('/dashboard');
     } catch (e) {
-      setMessage(e.message)
+      console.error(e);
+      setMessage('Invalid credentials. Please try again.');
     }
-  }
+  };
 
   const isFormInvalid = () => {
-    if (formData.username === '')  {
-      return true
-    }
-
-    if (formData.password === '') {
-      return true
-    }
-  }
+    return formData.username === '' || formData.password === '';
+  };
 
   return (
     <main>
       <h1>Sign In</h1>
-      <p>{message}</p>
+      <p style={{ color: 'red' }}>{message}</p>
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -75,11 +78,11 @@ const SignInForm = () => {
 
         <div>
           <button disabled={isFormInvalid()} type="submit">Sign In</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+          <button type="button" onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
     </main>
-  )
-}
+  );
+};
 
-export default SignInForm
+export default SignInForm;

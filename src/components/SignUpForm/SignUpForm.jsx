@@ -1,57 +1,47 @@
-import { useState, useContext } from "react"
-import { useNavigate } from "react-router"
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { signUp } from "../../services/authService"
-import { UserContext } from "../../contexts/UserContext"
+import { signUp } from "../../services/authService";
+import { UserContext } from "../../contexts/UserContext";
 
 const SignUpForm = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    passwordConf: '',
-  })
-  const [message, setMessage] = useState('')
+  });
+  const [message, setMessage] = useState('');
 
-  const { setUser } = useContext(UserContext)
+  const { setUser } = useContext(UserContext);
 
   const handleChange = (e) => {
-    setMessage('')
-    setFormData({...formData, [e.target.name]: e.target.value})
-  }
+    setMessage('');
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      const newUser = await signUp(formData)
+      const user = await signUp(formData);
 
-      setUser(newUser)
+      setUser(user);
 
-      navigate('/')
+      navigate('/dashboard');
     } catch (e) {
-      setMessage(e.message)
+      console.error(e);
+      setMessage('Sign up failed. Please try again.');
     }
-  }
+  };
 
   const isFormInvalid = () => {
-    if (formData.username === '')  {
-      return true
-    }
-
-    if (formData.password === '') {
-      return true
-    }
-
-    if (formData.password !== formData.passwordConf) {
-      return true
-    }
-  }
+    return formData.username === '' || formData.password === '';
+  };
 
   return (
     <main>
       <h1>Sign Up</h1>
-      <p>{message}</p>
+      <p style={{ color: 'red' }}>{message}</p>
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -79,24 +69,12 @@ const SignUpForm = () => {
         </div>
 
         <div>
-          <label htmlFor="passwordConf">Confirm Password: </label>
-          <input
-            type="password"
-            id="passwordConf"
-            name="passwordConf"
-            value={formData.passwordConf}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
           <button disabled={isFormInvalid()} type="submit">Sign Up</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+          <button type="button" onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
     </main>
-  )
-}
+  );
+};
 
-export default SignUpForm
+export default SignUpForm;

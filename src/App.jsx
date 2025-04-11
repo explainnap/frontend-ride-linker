@@ -10,6 +10,7 @@ import Groups from './components/Groups/Groups';
 import Rides from './components/Rides/Rides';
 import SignInForm from './components/SignInForm/SignInForm';
 import SignUpForm from './components/SignUpForm/SignUpForm';
+import About from './components/About/About'; // ✅ Add About
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/add-ride/:groupId" element={<AddRide />} />
         <Route path="/signin" element={<SignInForm />} />
         <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/about" element={<About />} /> {/* ✅ Now included */}
       </Routes>
     </Router>
   );
