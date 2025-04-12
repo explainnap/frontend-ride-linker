@@ -1,3 +1,8 @@
+
+![Screenshot 2025-04-12 at 13 21 59](https://github.com/user-attachments/assets/a13e3ad1-ae31-4f01-ae09-5b2fb0e601d4)
+
+
+
 # RideLinker Frontend 🚴‍♂️
 
 This is the React.js frontend for the RideLinker application.  
@@ -121,7 +126,7 @@ If you refresh the page, you stay logged in (JWT stored)!
 
 🚀 Pagination for groups and rides
 
-🚀 Auto logout on token expiry
+🚀 Add maps to rides
 
 🚀 Unit tests for components
 
