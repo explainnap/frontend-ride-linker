@@ -67,7 +67,9 @@ View all rides within a group
 
 Add new rides to a group (authenticated)
 
-Mark rides as complete ✅ or undo completion
+Mark rides as complete 
+
+✅ or undo completion
 
 Status updates dynamically
 
