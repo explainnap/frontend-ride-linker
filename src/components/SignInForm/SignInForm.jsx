@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Fixed import
-
-import { signIn } from "../../services/authService"; // ✅ Service file
+import { useNavigate } from "react-router-dom";
+import { signIn } from "../../services/authService";
 import { UserContext } from "../../contexts/UserContext";
 
 const SignInForm = () => {
@@ -23,18 +22,9 @@ const SignInForm = () => {
     e.preventDefault();
 
     try {
-      const { token } = await signIn(formData);
-
-   
+      const { user, token } = await signIn(formData);
       localStorage.setItem('token', token);
-
- 
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = JSON.parse(atob(base64));
-
-      setUser(jsonPayload);
-
+      setUser(user);
       navigate('/dashboard');
     } catch (e) {
       console.error(e);

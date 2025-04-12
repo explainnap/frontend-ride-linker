@@ -6,25 +6,26 @@ const signUp = async (formData) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
-    })
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (data.err) {
-      throw new Error(data.err)
+      throw new Error(data.err);
     }
 
     if (data.token) {
-      localStorage.setItem('token', data.token)
-      return JSON.parse(atob(data.token.split('.')[1])).payload
+      localStorage.setItem('token', data.token);
+      const user = JSON.parse(atob(data.token.split('.')[1])).payload;
+      return { user, token: data.token }; // ✅ Return both properly
     }
 
-    throw new Error('Received invalid response from the server')
+    throw new Error('Received invalid response from the server');
   } catch (e) {
-    console.log(e)
-    throw new Error(e)
+    console.log(e);
+    throw new Error(e);
   }
-}
+};
 
 const signIn = async (formData) => {
   try {
@@ -32,27 +33,28 @@ const signIn = async (formData) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
-    })
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (data.err) {
-      throw new Error(data.err)
+      throw new Error(data.err);
     }
 
     if (data.token) {
-      localStorage.setItem('token', data.token)
-      return JSON.parse(atob(data.token.split('.')[1])).payload
+      localStorage.setItem('token', data.token);
+      const user = JSON.parse(atob(data.token.split('.')[1])).payload;
+      return { user, token: data.token }; // ✅ Return both properly
     }
 
-    throw new Error('Received invalid response from the server')
+    throw new Error('Received invalid response from the server');
   } catch (e) {
-    console.log(e)
-    throw new Error(e)
+    console.log(e);
+    throw new Error(e);
   }
-}
+};
 
 export {
   signUp,
   signIn
-}
+};
