@@ -126,7 +126,7 @@ If you refresh the page, you stay logged in (JWT stored)!
 
 🚀 Pagination for groups and rides
 
-🚀 Auto logout on token expiry
+🚀 Add maps to rides
 
 🚀 Unit tests for components
 
